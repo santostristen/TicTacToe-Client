@@ -12,6 +12,66 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body>
-      <h1>Play the Classic Tic Tac Toe in your Browser</h1>
+      <h1>Play the Classic Tic Tac Toe in your Browser!</h1>
+      <p id="message"></p>
+       <section>
+         <form id="user-sign-up">
+           <fieldset>
+             <legend>Sign up to Play!</legend>
+
+             <label for="sign-up-email">Email</label>
+             <input id="sign-up-email" type="email" name="credentials[email]" placeholder="Email">
+
+             <label for="sign-up-password">Password</label>
+             <input id="sign-up-password" type="password" name="credentials[password]" placeholder="Password">
+
+             <label for="sign-up-password_confirmation">Password Confirmation</label>
+             <input id="sign-up-password_confirmmation" type="password" name="credentials[password_confirmation]" placeholder="Confirm Password">
+
+             <input type="submit" value="Sign up!">
+           </fieldset>
+         </form>
+       </section>
+       <section>
+         <form id="user-sign-in">
+           <fieldset>
+             <legend>Sign in and get started!</legend>
+
+             <label for="sign-in-email">Email</label>
+             <input id="sign-in-email" type="email" name="credentials[email]" placeholder="Email">
+
+             <label for="sign-in-password">Password</label>
+             <input id="sign-in-password" type="password" name="credentials[password]" placeholder="Password">
+
+             <input type="submit" value="Sign in!">
+           </fieldset>
+         </form>
+       </section>
+       <section>
+         <form id="change-password">
+           <fieldset>
+             <legend>Change Your Password Here.</legend>
+
+             <label for="old-password">Old Password</label>
+             <input id="old-password" type="password" name="passwords[old]" placeholder="Old Password">
+
+             <label for="new-password">New Password</label>
+             <input id="new-password" type="password" name="passwords[new]" placeholder="New Password">
+
+             <input type="submit" value="Change Password!">
+           </fieldset>
+         </form>
+       </section>
+       <section>
+         <form id="user-sign-out">
+           <fieldset>
+             <legend>Sign Out Here!</legend>
+
+              <label for="old-password">Sign Out</label>
+              <input type="submit" value="Sign Out!">
+
+           </fieldset>
+         </form>
+       </section>
     </body>
 </html>
