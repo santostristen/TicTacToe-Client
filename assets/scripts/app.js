@@ -15,22 +15,23 @@ $(() => {
   $('h2').hide()
 })
 
-// display messages to the user
+// used with player turn and win or draw messages to tell the user what is happening in the designated area from HTML
 const statusDisplay = document.querySelector('.game-stand')
 
-// add the event listener 'click' to all of the cells
+// add the event listener 'click' to all of the cells along with the onClick function
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', onClick))
 
 // using to keep track of which player is placing
 let currentPlayer = 'X'
 
-// using to check what cells have been played and winning combos
+// using to check what cells have been played and winning combos or draw
 const gameStatus = ['', '', '', '', '', '', '', '', '']
 
 // using to prevent clicks after a game finishes
 let gamePlaying = true
 
-// messages to let the player know whats going on
+// messages to let the player know whos turn it is and who wins or if its a draw
+// back ticks to display the current player object as regular text
 const winnerText = () => `${currentPlayer} is the Winner!`
 
 const drawText = () => 'Game is a Draw!'
@@ -44,11 +45,12 @@ statusDisplay.innerHTML = currentPlayerTurn()
 function onClick (clickedEvent) {
   const clickedCell = clickedEvent.target
 
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt use parseInt() to change the string to a number
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt use parseInt() to change the string to a number to set up for winningCombos
   const clickedCellIndex = parseInt(
     clickedCell.getAttribute('data-cell-index')
   )
 
+  // dont allow user to click on clicked cells or after game is done
   if (gameStatus[clickedCellIndex] !== '' || !gamePlaying) {
     return
   }
@@ -57,7 +59,7 @@ function onClick (clickedEvent) {
   winCheck()
 }
 
-// will not allow a player to place on a cell already used
+// will put current player, either 'X' or 'O' in the clicked cell
 function onClicked (clickedCell, clickedCellIndex) {
   gameStatus[clickedCellIndex] = currentPlayer
   clickedCell.innerHTML = currentPlayer
@@ -65,12 +67,12 @@ function onClicked (clickedCell, clickedCellIndex) {
 
 // function to change players
 function playerRotation () {
-  // https://medium.com/@jraleman/ternary-operators-vs-if-else-statements-6c26f7d034f7#:~:text=A%20ternary%20operator%20takes%20three,in%20one%20(1)%20line! found while doing more reading on if else statements as a way to clean up code, '?' is the if operator while ':' is the else operator
+  // https://medium.com/@jraleman/ternary-operators-vs-if-else-statements-6c26f7d034f7#:~:text=A%20ternary%20operator%20takes%20three,in%20one%20(1)%20line! found while doing more reading on if else statements as a way to clean up code, '?' is the if operator while ':' is the else operator. Basically if its not 'X' its 'O' and vice versa
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
   statusDisplay.innerHTML = currentPlayerTurn()
 }
 
-// same player symbol on these cells is the winner
+// same player on these cells is the winner
 const winningCombos = [
   [0, 1, 2],
   [0, 3, 6],
@@ -89,23 +91,27 @@ function winCheck () {
   for (let i = 0; i <= 7; i++) {
     // https://www.w3schools.com/js/js_break.asp
     const winningCondition = winningCombos[i]
-    // shows what array indexes have been filled from gameStatus to check winner
+    // shows what array cells have been filled from gameStatus to check winner
     const a = gameStatus[winningCondition[0]]
     const b = gameStatus[winningCondition[1]]
     const c = gameStatus[winningCondition[2]]
+    // if any winningCombos aren't met continue the game
     if (a === '' || b === '' || c === '') {
       continue
     }
+    // this represents a winningCombos being met it will pass wonGame as true
     if (a === b && b === c) {
       wonGame = true
       break
     }
   }
+  // when wonGame is true it will display the winnerText and also not allow anymore symbols to be placed
   if (wonGame) {
     statusDisplay.innerHTML = winnerText()
     gamePlaying = false
     return
   }
+  // if user gets all cells filled without meeting any winningCombos the drawText will display as well as stopping more moves from being made
   const gameDraw = !gameStatus.includes('')
   if (gameDraw) {
     statusDisplay.innerHTML = drawText()
