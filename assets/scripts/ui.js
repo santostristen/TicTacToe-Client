@@ -21,6 +21,9 @@ const userSignInSuccess = function (response) {
   $('#user-sign-out').show()
   $('#user-sign-up').hide()
   $('#user-sign-in').hide()
+  $('#start-new-game').show()
+  $('.board').show()
+  $('h2').show()
   store.user = response.user
   console.log('this is the response in user sign in success', response.user.token)
 }
@@ -28,12 +31,14 @@ const userSignInSuccess = function (response) {
 const userSignInFailure = function () {
   // responds on failed sign in
   $('#message').text('Sorry something went wrong, please try again')
+  $('form').trigger('reset')
 }
 
 const passChangeSuccess = function () {
   console.log('passChangeSuccess')
   // lets you know password change was successful
   $('#message').text('Your Password has been changed.')
+  $('form').trigger('reset')
 }
 
 const passChangeFailure = function () {
@@ -48,6 +53,7 @@ const userSignOutSuccess = function () {
   $('#user-sign-in').show()
   $('#change-password').hide()
   $('#user-sign-out').hide()
+  $('#start-new-game').hide()
 
   store.user = null
 }
@@ -55,6 +61,28 @@ const userSignOutSuccess = function () {
 const userSignOutFailure = function () {
   $('#message').text('Sign Out Failed, try again')
 }
+
+const newGameSuccess = function (response) {
+  console.log('new game worked')
+  console.log(response)
+  // starting new game triggers this message
+  $('#message').text('New Game Started, have fun!')
+}
+
+const newGameFailure = function () {
+  console.log('no good')
+  // failing to start a new game will trigger this message
+  $('#message').text('Could not start a new game')
+}
+
+const gameUpdateSuccess = function (response) {
+  console.log('click worked')
+}
+
+const gameUpdateFailure = function () {
+  console.log('click not working')
+}
+
 module.exports = {
   userSignUpSuccess,
   userSignUpFailure,
@@ -63,5 +91,9 @@ module.exports = {
   passChangeSuccess,
   passChangeFailure,
   userSignOutSuccess,
-  userSignOutFailure
+  userSignOutFailure,
+  newGameSuccess,
+  newGameFailure,
+  gameUpdateSuccess,
+  gameUpdateFailure
 }

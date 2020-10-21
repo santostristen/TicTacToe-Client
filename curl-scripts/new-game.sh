@@ -9,17 +9,15 @@ curl "${API}${URL_PATH}" \
   --header "Authorization: Bearer ${TOKEN}" \
   --header "Content-type: application/json" \
   --data '{
+    "games": [
     {
-      "game": {
-        "cells": ["","","","","","","","",""],
-        "over": boolean,
-        "_id": "",
-        "owner": "",
-        "createdAt": "",
-        "updatedAt": "",
-        "__v": 0
-  }
-}
+     "cells": ["","","","","","","","",""],
+          "over": false,
+          "_id": "",
+          "owner": "",
+          "createdAt": "",
+          "updatedAt": "",
+          "__v": 0
   }'
 
 echo

@@ -66,9 +66,36 @@ const userSignOut = function (event) {
     .catch(ui.userSignOutFailure)
 }
 
+const userNewGame = function (event) {
+  event.preventDefault()
+  console.log('event is', event)
+
+  const form = event.target
+
+  const data = getFormFields(form)
+
+  api.newGame(data)
+    .then(ui.newGameSuccess)
+    .catch(ui.newGameFailure)
+}
+
+const userPlaying = function (event) {
+  event.preventDefault()
+
+  const form = event.target
+
+  const data = getFormFields(form)
+
+  api.gameUpdate(data)
+    .then(ui.gameUpdateSuccess)
+    .catch(ui.gameUpdateFailure)
+}
+
 module.exports = {
   userSignUp,
   userSignIn,
   passChange,
-  userSignOut
+  userSignOut,
+  userNewGame,
+  userPlaying
 }
