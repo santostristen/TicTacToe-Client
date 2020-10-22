@@ -44,7 +44,6 @@ const signOut = function (data) {
 }
 
 const newGame = function (data) {
-  console.log(data)
   return $.ajax({
     url: config.apiUrl + '/games',
     headers: {

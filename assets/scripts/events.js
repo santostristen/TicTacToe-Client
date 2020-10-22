@@ -68,7 +68,6 @@ const userSignOut = function (event) {
 
 const userNewGame = function (event) {
   event.preventDefault()
-  console.log('event is', event)
 
   const form = event.target
 

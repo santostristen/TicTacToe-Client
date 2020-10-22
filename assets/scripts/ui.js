@@ -25,7 +25,6 @@ const userSignInSuccess = function (response) {
   $('.board').show()
   $('h2').show()
   store.user = response.user
-  console.log('this is the response in user sign in success', response.user.token)
 }
 
 const userSignInFailure = function () {
@@ -35,14 +34,12 @@ const userSignInFailure = function () {
 }
 
 const passChangeSuccess = function () {
-  console.log('passChangeSuccess')
   // lets you know password change was successful
   $('#message').text('Your Password has been changed.')
   $('form').trigger('reset')
 }
 
 const passChangeFailure = function () {
-  console.log('youfailed')
   // lets you know password change was failed
   $('#message').text('Sorry could not change your password, please try again')
 }
@@ -54,6 +51,8 @@ const userSignOutSuccess = function () {
   $('#change-password').hide()
   $('#user-sign-out').hide()
   $('#start-new-game').hide()
+  $('.board').hide()
+  $('h2').hide()
 
   store.user = null
 }
@@ -63,24 +62,22 @@ const userSignOutFailure = function () {
 }
 
 const newGameSuccess = function (response) {
-  console.log('new game worked')
-  console.log(response)
   // starting new game triggers this message
   $('#message').text('New Game Started, have fun!')
+  $('.cell').text('')
 }
 
 const newGameFailure = function () {
-  console.log('no good')
   // failing to start a new game will trigger this message
   $('#message').text('Could not start a new game')
 }
 
 const gameUpdateSuccess = function (response) {
-  console.log('click worked')
+  $('#message').text('Valid Move')
 }
 
 const gameUpdateFailure = function () {
-  console.log('click not working')
+  $('#message').text('Invalid Move')
 }
 
 module.exports = {

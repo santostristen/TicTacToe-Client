@@ -25,7 +25,7 @@ document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click'
 let currentPlayer = 'X'
 
 // using to check what cells have been played and winning combos or draw
-const gameStatus = ['', '', '', '', '', '', '', '', '']
+let gameStatus = ['', '', '', '', '', '', '', '', '']
 
 // using to prevent clicks after a game finishes
 let gamePlaying = true
