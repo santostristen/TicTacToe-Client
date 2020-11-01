@@ -24,4 +24,4 @@
     The styling is very bland and I would like to style it a bit more.
 
   ## Images
-    https://imgur.com/a/RBcVz9v
+    ![WireFrame](https://imgur.com/a/RBcVz9v)
