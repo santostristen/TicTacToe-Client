@@ -16521,8 +16521,9 @@ $(function () {
   $('#start-new-game').hide();
   $('.board').hide();
   $('h2').hide();
+  $('#get-all-games').on('submit', events.seeGamesPlayed);
+  $('#get-all-games').hide();
 });
-
 // used with player turn and win or draw messages to tell the user what is happening in the designated area from HTML
 var statusDisplay = document.querySelector('.game-stand');
 
@@ -16565,6 +16566,7 @@ function onClick(clickedEvent) {
   var clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
 
   // dont allow user to click on clicked cells or after game is done
+  // store.gamePlaying
   if (gameStatus[clickedCellIndex] !== '' || !gamePlaying) {
     return;
   }
@@ -16625,6 +16627,18 @@ function winCheck() {
   }
   playerRotation();
 }
+
+function handleNewGame() {
+  gamePlaying = true;
+  currentPlayer = 'X';
+  gameStatus = ['', '', '', '', '', '', '', '', ''];
+  statusDisplay.innerHTML = currentPlayerTurn();
+  document.querySelectorAll('.cell').forEach(function (cell) {
+    return cell.innerHTML;
+  });
+}
+
+module.exports = handleNewGame;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
 
 /***/ }),
@@ -16702,7 +16716,6 @@ var userSignOut = function userSignOut(event) {
 
 var userNewGame = function userNewGame(event) {
   event.preventDefault();
-  console.log('event is', event);
 
   var form = event.target;
 
@@ -16721,13 +16734,24 @@ var userPlaying = function userPlaying(event) {
   api.gameUpdate(data).then(ui.gameUpdateSuccess).catch(ui.gameUpdateFailure);
 };
 
+var seeGamesPlayed = function seeGamesPlayed() {
+  event.preventDefault();
+
+  var form = event.target;
+
+  var data = getFormFields(form);
+
+  api.seeGames(data).then(ui.getAllGamesSuccess).catch(ui.getAllGamesFailure);
+};
+
 module.exports = {
   userSignUp: userSignUp,
   userSignIn: userSignIn,
   passChange: passChange,
   userSignOut: userSignOut,
   userNewGame: userNewGame,
-  userPlaying: userPlaying
+  userPlaying: userPlaying,
+  seeGamesPlayed: seeGamesPlayed
 };
 
 /***/ }),
@@ -16843,8 +16867,8 @@ var userSignInSuccess = function userSignInSuccess(response) {
   $('#start-new-game').show();
   $('.board').show();
   $('h2').show();
+  $('#get-all-games').show();
   store.user = response.user;
-  console.log('this is the response in user sign in success', response.user.token);
 };
 
 var userSignInFailure = function userSignInFailure() {
@@ -16854,14 +16878,12 @@ var userSignInFailure = function userSignInFailure() {
 };
 
 var passChangeSuccess = function passChangeSuccess() {
-  console.log('passChangeSuccess');
   // lets you know password change was successful
   $('#message').text('Your Password has been changed.');
   $('form').trigger('reset');
 };
 
 var passChangeFailure = function passChangeFailure() {
-  console.log('youfailed');
   // lets you know password change was failed
   $('#message').text('Sorry could not change your password, please try again');
 };
@@ -16873,6 +16895,9 @@ var userSignOutSuccess = function userSignOutSuccess() {
   $('#change-password').hide();
   $('#user-sign-out').hide();
   $('#start-new-game').hide();
+  $('.board').hide();
+  $('h2').hide();
+  $('#get-all-games').hide();
 
   store.user = null;
 };
@@ -16882,24 +16907,29 @@ var userSignOutFailure = function userSignOutFailure() {
 };
 
 var newGameSuccess = function newGameSuccess(response) {
-  console.log('new game worked');
-  console.log(response);
   // starting new game triggers this message
   $('#message').text('New Game Started, have fun!');
 };
 
 var newGameFailure = function newGameFailure() {
-  console.log('no good');
   // failing to start a new game will trigger this message
   $('#message').text('Could not start a new game');
 };
 
 var gameUpdateSuccess = function gameUpdateSuccess(response) {
-  console.log('click worked');
+  $('#message').text('Valid Move');
 };
 
 var gameUpdateFailure = function gameUpdateFailure() {
-  console.log('click not working');
+  $('#message').text('Invalid Move');
+};
+
+var getAllGamesSuccess = function getAllGamesSuccess() {
+  $('#message').text('You have played ' + store.user.games + 'games.');
+};
+
+var getAllGamesFailure = function getAllGamesFailure() {
+  $('#message').text('Could not retrieve games');
 };
 
 module.exports = {
@@ -16914,7 +16944,9 @@ module.exports = {
   newGameSuccess: newGameSuccess,
   newGameFailure: newGameFailure,
   gameUpdateSuccess: gameUpdateSuccess,
-  gameUpdateFailure: gameUpdateFailure
+  gameUpdateFailure: gameUpdateFailure,
+  getAllGamesSuccess: getAllGamesSuccess,
+  getAllGamesFailure: getAllGamesFailure
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
 
@@ -16969,7 +17001,6 @@ var signOut = function signOut(data) {
 };
 
 var newGame = function newGame(data) {
-  console.log(data);
   return $.ajax({
     url: config.apiUrl + '/games',
     headers: {
@@ -16991,13 +17022,25 @@ var gameUpdate = function gameUpdate(data) {
   });
 };
 
+var seeGames = function seeGames(data) {
+  return $.ajax({
+    url: config.apiUrl + '/games',
+    headers: {
+      Authorization: 'Bearer ' + store.user.games
+    },
+    method: 'GET',
+    data: data
+  });
+};
+
 module.exports = {
   signUp: signUp,
   signIn: signIn,
   changePass: changePass,
   signOut: signOut,
   newGame: newGame,
-  gameUpdate: gameUpdate
+  gameUpdate: gameUpdate,
+  seeGames: seeGames
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
 
