@@ -13,8 +13,9 @@ $(() => {
   $('#start-new-game').hide()
   $('.board').hide()
   $('h2').hide()
+  $('#get-all-games').on('submit', events.seeGamesPlayed)
+  $('#get-all-games').hide()
 })
-
 // used with player turn and win or draw messages to tell the user what is happening in the designated area from HTML
 const statusDisplay = document.querySelector('.game-stand')
 
@@ -51,6 +52,7 @@ function onClick (clickedEvent) {
   )
 
   // dont allow user to click on clicked cells or after game is done
+  // store.gamePlaying
   if (gameStatus[clickedCellIndex] !== '' || !gamePlaying) {
     return
   }
@@ -120,3 +122,14 @@ function winCheck () {
   }
   playerRotation()
 }
+
+function handleNewGame () {
+  gamePlaying = true
+  currentPlayer = 'X'
+  gameStatus = ['', '', '', '', '', '', '', '', '']
+  statusDisplay.innerHTML = currentPlayerTurn()
+  document.querySelectorAll('.cell')
+    .forEach(cell => cell.innerHTML)
+}
+
+module.exports = handleNewGame

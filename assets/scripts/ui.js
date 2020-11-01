@@ -24,6 +24,7 @@ const userSignInSuccess = function (response) {
   $('#start-new-game').show()
   $('.board').show()
   $('h2').show()
+  $('#get-all-games').show()
   store.user = response.user
 }
 
@@ -53,6 +54,7 @@ const userSignOutSuccess = function () {
   $('#start-new-game').hide()
   $('.board').hide()
   $('h2').hide()
+  $('#get-all-games').hide()
 
   store.user = null
 }
@@ -64,7 +66,6 @@ const userSignOutFailure = function () {
 const newGameSuccess = function (response) {
   // starting new game triggers this message
   $('#message').text('New Game Started, have fun!')
-  $('.cell').text('')
 }
 
 const newGameFailure = function () {
@@ -80,6 +81,14 @@ const gameUpdateFailure = function () {
   $('#message').text('Invalid Move')
 }
 
+const getAllGamesSuccess = function () {
+  $('#message').text('You have played ' + store.user.games + 'games.')
+}
+
+const getAllGamesFailure = function () {
+  $('#message').text('Could not retrieve games')
+}
+
 module.exports = {
   userSignUpSuccess,
   userSignUpFailure,
@@ -92,5 +101,7 @@ module.exports = {
   newGameSuccess,
   newGameFailure,
   gameUpdateSuccess,
-  gameUpdateFailure
+  gameUpdateFailure,
+  getAllGamesSuccess,
+  getAllGamesFailure
 }

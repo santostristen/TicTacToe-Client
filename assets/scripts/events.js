@@ -90,11 +90,24 @@ const userPlaying = function (event) {
     .catch(ui.gameUpdateFailure)
 }
 
+const seeGamesPlayed = function () {
+  event.preventDefault()
+
+  const form = event.target
+
+  const data = getFormFields(form)
+
+  api.seeGames(data)
+    .then(ui.getAllGamesSuccess)
+    .catch(ui.getAllGamesFailure)
+}
+
 module.exports = {
   userSignUp,
   userSignIn,
   passChange,
   userSignOut,
   userNewGame,
-  userPlaying
+  userPlaying,
+  seeGamesPlayed
 }
