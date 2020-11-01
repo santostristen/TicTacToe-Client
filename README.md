@@ -24,4 +24,4 @@
     The styling is very bland and I would like to style it a bit more.
 
   ## Images
-    <img src="https://imgur.com/a/RBcVz9v">
+    https://imgur.com/a/RBcVz9v
